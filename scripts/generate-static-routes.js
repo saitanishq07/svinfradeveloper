@@ -193,11 +193,19 @@ function injectSeo(html, route) {
 console.log('Generating static HTML routes for SEO...');
 
 routes.forEach((route) => {
-  const targetDir = path.join(distDir, route.path);
-  fs.mkdirSync(targetDir, { recursive: true });
   const routeHtml = injectSeo(baseHtml, route);
-  fs.writeFileSync(path.join(targetDir, 'index.html'), routeHtml, 'utf-8');
-  console.log(`Generated: dist/${route.path}/index.html`);
+
+  // 1. Write <route>.html
+  const flatHtmlPath = path.join(distDir, `${route.path}.html`);
+  fs.mkdirSync(path.dirname(flatHtmlPath), { recursive: true });
+  fs.writeFileSync(flatHtmlPath, routeHtml, 'utf-8');
+
+  // 2. Write <route>/index.html
+  const nestedDir = path.join(distDir, route.path);
+  fs.mkdirSync(nestedDir, { recursive: true });
+  fs.writeFileSync(path.join(nestedDir, 'index.html'), routeHtml, 'utf-8');
+
+  console.log(`Generated: dist/${route.path}.html and dist/${route.path}/index.html`);
 });
 
 // Also generate dist/404.html
