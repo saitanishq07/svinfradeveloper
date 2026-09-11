@@ -78,8 +78,8 @@ export const companyData = {
     {
       id: "earthwork-excavations",
       number: "04",
-      title: "Earthwork Excavations",
-      shortDescription: "Comprehensive earthmoving and excavation services for foundations, tunnels, and large-scale construction.",
+      title: "Earthwork Excavations & Demolition",
+      shortDescription: "Comprehensive earthmoving, rock breaking demolition, basement cutouts, and mass excavation services across Hyderabad & Telangana.",
       fullDescription: "We execute large-capacity earth excavation, site grading, trenching, structural basement cutouts, and land development. Armed with heavy excavator fleets, dump trucks, wheel loaders, and bull dozers, we ensure rapid soil displacement, precise elevation grading, and efficient site preparation.",
       icon: "HardHat",
       image: "/services/service-04-earthwork-excavations.jpg",

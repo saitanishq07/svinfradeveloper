@@ -28,10 +28,10 @@ const Services = () => {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-logo-graphite tracking-tight mb-4">
-            Our Core <span className="text-logo-blue">Infrastructure Services</span>
+            Rock Blasting & <span className="text-logo-blue">Construction Services</span>
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Delivering technical precision across blasting, earthworks, road construction, and canal engineering.
+            Delivering technical precision across control blasting, open blasting, chemical rock breaking, demolition earthworks, road construction, and canal engineering in Hyderabad & Telangana.
           </p>
           <div className="w-20 h-1 bg-logo-blue mx-auto rounded-full mt-4" />
         </div>

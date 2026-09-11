@@ -39,16 +39,16 @@ const Hero = () => {
               </span>
             </div>
 
-            {/* Hero Heading */}
+            {/* Hero Heading - Exactly 1 H1 Tag */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] drop-shadow-md">
-              Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-logo-cyan via-blue-400 to-blue-500">Infrastructure.</span>
+              Rock Blasting & <span className="text-transparent bg-clip-text bg-gradient-to-r from-logo-cyan via-blue-400 to-blue-500">Infrastructure Services</span>
               <br />
-              Creating <span className="text-white">Progress.</span>
+              in <span className="text-white">Hyderabad, Telangana</span>
             </h1>
 
             {/* Subheading */}
             <p className="text-sm sm:text-base text-slate-200 font-normal leading-relaxed drop-shadow-sm">
-              Specializing in high-precision control blasting, open quarrying, chemical rock breaking, mass earthwork excavations, highway roads, and irrigation canal engineering.
+              Premier rock breaking & civil construction contractors specializing in control blasting, open blasting, chemical blasting, demolition earthworks, road construction, and canal works across Hyderabad & Telangana.
             </p>
 
             {/* Feature Badges */}

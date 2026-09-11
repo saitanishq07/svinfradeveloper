@@ -16,10 +16,10 @@ const CompanyProfile = () => {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-logo-graphite tracking-tight mb-4">
-            About <span className="text-logo-blue">SV Infra Developers</span>
+            Premier Infrastructure & <span className="text-logo-blue">Rock Breaking Contractors</span> in Hyderabad
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Rapidly growing infrastructure company headquartered in Hyderabad, delivering specialized engineering services across South India.
+            Rapidly growing infrastructure & rock blasting firm headquartered in KPHB, Hyderabad, delivering specialized construction and demolition services across Telangana & South India.
           </p>
           <div className="w-20 h-1 bg-logo-blue mx-auto rounded-full mt-4" />
         </div>

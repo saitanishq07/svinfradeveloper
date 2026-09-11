@@ -17,10 +17,10 @@ const Clients = () => {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-logo-graphite tracking-tight mb-4">
-            Trusted by <span className="text-logo-blue">Industry Leaders</span>
+            Trusted Infrastructure Partners in <span className="text-logo-blue">Telangana & India</span>
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Delivering rock blasting, earthmoving, road construction, and canal works for premier corporate conglomerates and state infrastructure bodies.
+            Delivering control blasting, open quarry blasting, chemical rock breaking demolition, road construction, and canal engineering for premier corporate conglomerates and government authorities.
           </p>
           <div className="w-20 h-1 bg-logo-blue mx-auto rounded-full mt-4" />
         </div>

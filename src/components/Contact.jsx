@@ -75,10 +75,10 @@ const Contact = () => {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-logo-graphite mb-4">
-            Get In <span className="text-logo-blue">Touch</span>
+            Contact <span className="text-logo-blue">SV Infra Developers</span> in Hyderabad
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Connect with our engineering and project directors for technical consultation, tenders, and site evaluations.
+            Connect with our engineering team for rock blasting, demolition earthworks, road construction, and canal projects in Hyderabad, Telangana.
           </p>
           <div className="w-20 h-1 bg-logo-blue mx-auto rounded-full mt-4" />
         </div>

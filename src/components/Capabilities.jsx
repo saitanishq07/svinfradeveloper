@@ -16,10 +16,10 @@ const Capabilities = () => {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-logo-graphite mb-4">
-            Specialized <span className="text-logo-blue">Infrastructure Divisions</span>
+            Controlled Blasting & <span className="text-logo-blue">Demolition Capabilities</span>
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            High-volume execution capabilities backed by experienced blasting engineers and heavy machinery.
+            High-volume rock breaking & civil construction capabilities backed by licensed blasting engineers and heavy machinery fleets in Hyderabad & Telangana.
           </p>
           <div className="w-20 h-1 bg-logo-blue mx-auto rounded-full mt-4" />
         </div>
