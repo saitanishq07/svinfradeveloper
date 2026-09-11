@@ -1,0 +1,6 @@
+# Allow all web crawlers and search engines to crawl public pages
+User-agent: *
+Allow: /
+
+# XML Sitemap Location
+Sitemap: https://svinfradeveloper.com/sitemap.xml
