@@ -213,3 +213,36 @@ fs.writeFileSync(path.join(distDir, '404.html'), baseHtml, 'utf-8');
 console.log('Generated: dist/404.html');
 
 console.log('All static routes generated successfully!');
+
+// Sync generated static directories & assets to root directory for GitHub Pages main branch compatibility
+const rootDir = path.resolve(__dirname, '..');
+
+function copyDirSync(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDirSync(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
+['about', 'services', 'projects', 'contact', 'assets'].forEach((dir) => {
+  const src = path.join(distDir, dir);
+  const dest = path.join(rootDir, dir);
+  if (fs.existsSync(src)) {
+    copyDirSync(src, dest);
+    console.log(`Synced to root: ${dir}/`);
+  }
+});
+
+fs.copyFileSync(path.join(distDir, '404.html'), path.join(rootDir, '404.html'));
+if (fs.existsSync(path.join(distDir, '.nojekyll'))) {
+  fs.copyFileSync(path.join(distDir, '.nojekyll'), path.join(rootDir, '.nojekyll'));
+}
+console.log('Synced pre-rendered routes, 404.html & assets to root directory successfully!');
+
