@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, ChevronRight, Mail } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, Phone, ChevronRight, Mail, ChevronDown } from 'lucide-react';
 import { companyData } from '../data/companyData';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,49 +16,38 @@ const Navbar = () => {
       } else {
         setIsScrolled(false);
       }
-
-      const sections = ['home', 'about', 'services', 'projects', 'clients', 'why-us', 'contact'];
-      const scrollPosition = window.scrollY + 200;
-
-      for (const sectionId of sections) {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setServicesDropdownOpen(false);
+  }, [location.pathname]);
+
   const navLinks = [
-    { name: 'Home', href: '#home', id: 'home' },
-    { name: 'About Us', href: '#about', id: 'about' },
-    { name: 'Services', href: '#services', id: 'services' },
-    { name: 'Projects', href: '#projects', id: 'projects' },
-    { name: 'Clients', href: '#clients', id: 'clients' },
-    { name: 'Why Choose Us', href: '#why-us', id: 'why-us' },
-    { name: 'Contact', href: '#contact', id: 'contact' },
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Services', path: '/services', hasDropdown: true },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Contact', path: '/contact' },
   ];
 
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    setMobileMenuOpen(false);
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const serviceSubLinks = companyData.services.map((s) => ({
+    name: s.title,
+    path: s.path,
+  }));
+
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
   };
 
   return (
     <>
-      {/* Light Top Bar with Logo Theme Colors */}
+      {/* Light Top Bar */}
       <div className="bg-slate-100 text-slate-600 text-xs py-2 px-4 border-b border-slate-200 hidden md:block">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-6">
@@ -81,7 +72,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Main Sticky Header with Official Logo Image */}
+      {/* Main Sticky Header */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
@@ -90,50 +81,90 @@ const Navbar = () => {
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          {/* Official Image Logo */}
-          <a
-            href="#home"
-            onClick={(e) => handleNavClick(e, '#home')}
-            className="flex items-center space-x-3 group"
-          >
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-3 group">
             <img
               src="/logo.png"
               alt="SV Infra Developers Logo"
               className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
             />
-          </a>
+          </Link>
 
           {/* Desktop Nav Links */}
           <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`px-3 py-2 text-sm font-semibold rounded-md transition-all relative ${
-                  activeSection === link.id
-                    ? 'text-logo-blue font-bold bg-slate-100/80'
-                    : 'text-slate-700 hover:text-logo-blue hover:bg-slate-50'
-                }`}
-              >
-                {link.name}
-                {activeSection === link.id && (
-                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-logo-blue rounded-full" />
-                )}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              if (link.hasDropdown) {
+                return (
+                  <div
+                    key={link.name}
+                    className="relative group"
+                    onMouseEnter={() => setServicesDropdownOpen(true)}
+                    onMouseLeave={() => setServicesDropdownOpen(false)}
+                  >
+                    <Link
+                      to={link.path}
+                      className={`px-3 py-2 text-sm font-semibold rounded-md transition-all inline-flex items-center ${
+                        isActive('/services')
+                          ? 'text-logo-blue font-bold bg-slate-100/80'
+                          : 'text-slate-700 hover:text-logo-blue hover:bg-slate-50'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      <ChevronDown className="w-4 h-4 ml-1 text-slate-500 group-hover:text-logo-blue transition-transform" />
+                    </Link>
+
+                    {/* Services Dropdown */}
+                    {servicesDropdownOpen && (
+                      <div className="absolute top-full left-0 w-64 bg-white rounded-lg shadow-xl border border-slate-200 py-2 mt-1 animate-fadeIn z-50">
+                        <Link
+                          to="/services"
+                          className="block px-4 py-2 text-xs uppercase font-bold tracking-wider text-logo-blue hover:bg-slate-50 border-b border-slate-100"
+                        >
+                          All Services Overview →
+                        </Link>
+                        {serviceSubLinks.map((sub) => (
+                          <Link
+                            key={sub.path}
+                            to={sub.path}
+                            className="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-logo-blue transition font-medium"
+                          >
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`px-3 py-2 text-sm font-semibold rounded-md transition-all relative ${
+                    isActive(link.path)
+                      ? 'text-logo-blue font-bold bg-slate-100/80'
+                      : 'text-slate-700 hover:text-logo-blue hover:bg-slate-50'
+                  }`}
+                >
+                  {link.name}
+                  {isActive(link.path) && (
+                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-logo-blue rounded-full" />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Get in Touch CTA */}
           <div className="hidden sm:flex items-center space-x-4">
-            <a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, '#contact')}
+            <Link
+              to="/contact"
               className="relative inline-flex items-center justify-center px-5 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white bg-logo-blue hover:bg-logo-graphite rounded-lg shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5"
             >
               <span>Get in Touch</span>
               <ChevronRight className="w-4 h-4 ml-1 text-logo-cyan" />
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Hamburger Toggle Button */}
@@ -150,29 +181,67 @@ const Navbar = () => {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 shadow-xl animate-fadeIn">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`block px-4 py-3 rounded-lg text-base font-semibold transition ${
-                  activeSection === link.id
-                    ? 'bg-slate-100 text-logo-blue border-l-4 border-logo-blue font-bold'
-                    : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
-                }`}
+          <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 shadow-xl max-h-[80vh] overflow-y-auto">
+            <Link
+              to="/"
+              className={`block px-4 py-2.5 rounded-lg text-base font-semibold ${
+                isActive('/') ? 'bg-slate-100 text-logo-blue border-l-4 border-logo-blue font-bold' : 'text-slate-700'
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              to="/about"
+              className={`block px-4 py-2.5 rounded-lg text-base font-semibold ${
+                isActive('/about') ? 'bg-slate-100 text-logo-blue border-l-4 border-logo-blue font-bold' : 'text-slate-700'
+              }`}
+            >
+              About Us
+            </Link>
+
+            {/* Mobile Services Links */}
+            <div className="space-y-1 pl-2 border-l-2 border-slate-200">
+              <Link
+                to="/services"
+                className="block px-3 py-2 text-sm font-bold uppercase tracking-wider text-logo-blue"
               >
-                {link.name}
-              </a>
-            ))}
+                Services Overview
+              </Link>
+              {serviceSubLinks.map((sub) => (
+                <Link
+                  key={sub.path}
+                  to={sub.path}
+                  className="block px-3 py-2 text-sm text-slate-600 hover:text-logo-blue"
+                >
+                  {sub.name}
+                </Link>
+              ))}
+            </div>
+
+            <Link
+              to="/projects"
+              className={`block px-4 py-2.5 rounded-lg text-base font-semibold ${
+                isActive('/projects') ? 'bg-slate-100 text-logo-blue border-l-4 border-logo-blue font-bold' : 'text-slate-700'
+              }`}
+            >
+              Projects
+            </Link>
+            <Link
+              to="/contact"
+              className={`block px-4 py-2.5 rounded-lg text-base font-semibold ${
+                isActive('/contact') ? 'bg-slate-100 text-logo-blue border-l-4 border-logo-blue font-bold' : 'text-slate-700'
+              }`}
+            >
+              Contact
+            </Link>
+
             <div className="pt-4 border-t border-slate-200 flex flex-col space-y-3">
-              <a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, '#contact')}
+              <Link
+                to="/contact"
                 className="w-full text-center py-3 text-sm font-bold uppercase tracking-wider text-white bg-logo-blue rounded-lg shadow-md"
               >
                 Get in Touch
-              </a>
+              </Link>
               <div className="flex justify-around pt-2 text-xs text-slate-600 font-medium">
                 <a href={`tel:${companyData.primaryPhone}`} className="flex items-center hover:text-logo-blue">
                   <Phone className="w-3.5 h-3.5 mr-1 text-logo-blue" /> {companyData.primaryPhone}

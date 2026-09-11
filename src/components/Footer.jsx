@@ -1,35 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, ChevronRight, ShieldCheck } from 'lucide-react';
 import { companyData } from '../data/companyData';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
     <footer className="bg-logo-graphite text-slate-400 text-sm border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           
-          {/* Column 1: Logo Image & Description */}
+          {/* Column 1: Logo & Description */}
           <div className="lg:col-span-4 space-y-4">
             <div className="bg-white p-3 rounded-xl inline-block shadow-md">
-              <img
-                src="/logo.png"
-                alt="SV Infra Developers Logo"
-                className="h-12 w-auto object-contain"
-              />
+              <Link to="/">
+                <img
+                  src="/logo.png"
+                  alt="SV Infra Developers Logo"
+                  className="h-12 w-auto object-contain"
+                />
+              </Link>
             </div>
 
             <p className="text-slate-400 text-xs leading-relaxed pt-2">
-              Established in 2023 by Mr. K. Sai Kishore, SV Infra Developers is a rapidly growing infrastructure firm with an annual turnover of ₹1.5 Crores. We deliver technical precision across blasting, mass earthwork, road construction, and canal lining.
+              Established in 2023 by Mr. K. Sai Kishore, SV Infra Developers is a rapidly growing infrastructure firm with an annual turnover of ₹1.5 Crores. We deliver technical precision across blasting, mass earthwork, road construction, and canal lining in Hyderabad & Telangana.
             </p>
 
             <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs text-emerald-400 font-semibold">
@@ -45,50 +40,46 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2 text-xs">
               {[
-                { name: 'Home', href: '#home' },
-                { name: 'About Us', href: '#about' },
-                { name: 'Services', href: '#services' },
-                { name: 'Projects', href: '#projects' },
-                { name: 'Clients', href: '#clients' },
-                { name: 'Why Choose Us', href: '#why-us' },
-                { name: 'Contact', href: '#contact' },
+                { name: 'Home', path: '/' },
+                { name: 'About Us', path: '/about' },
+                { name: 'Services Overview', path: '/services' },
+                { name: 'Featured Projects', path: '/projects' },
+                { name: 'Contact Us', path: '/contact' },
               ].map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
+                  <Link
+                    to={link.path}
                     className="hover:text-logo-cyan transition flex items-center group"
                   >
                     <ChevronRight className="w-3 h-3 mr-1 text-slate-600 group-hover:text-logo-cyan group-hover:translate-x-1 transition-all" />
                     <span>{link.name}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: Core Services */}
+          {/* Column 3: Core Service Pages */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white border-b border-slate-800 pb-2">
-              Core Services
+              Target Services
             </h4>
             <ul className="space-y-2 text-xs">
               {companyData.services.map((service) => (
                 <li key={service.id}>
-                  <a
-                    href="#services"
-                    onClick={(e) => handleNavClick(e, '#services')}
+                  <Link
+                    to={service.path}
                     className="hover:text-logo-cyan transition flex items-center group"
                   >
                     <ChevronRight className="w-3 h-3 mr-1 text-slate-600 group-hover:text-logo-cyan group-hover:translate-x-1 transition-all" />
                     <span>{service.title}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 4: Contact Details */}
+          {/* Column 4: Official Contact */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white border-b border-slate-800 pb-2">
               Official Contact
@@ -127,7 +118,7 @@ const Footer = () => {
           <div className="flex items-center space-x-4 text-slate-400 font-semibold tracking-wider uppercase text-[11px]">
             <span>Building a Stronger Tomorrow</span>
             <span>•</span>
-            <span>Hyderabad, Telangana</span>
+            <span>KPHB, Hyderabad, Telangana</span>
           </div>
         </div>
       </div>

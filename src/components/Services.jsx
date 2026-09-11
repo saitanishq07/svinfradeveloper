@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Bomb, Flame, Zap, HardHat, Truck, Droplets, Wrench } from 'lucide-react';
 import { companyData } from '../data/companyData';
-import ServiceModal from './ServiceModal';
 
 const iconMap = {
   Bomb,
@@ -13,8 +13,6 @@ const iconMap = {
 };
 
 const Services = () => {
-  const [selectedService, setSelectedService] = useState(null);
-
   return (
     <section id="services" className="py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -70,21 +68,21 @@ const Services = () => {
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="text-xl font-bold text-logo-graphite mb-3 group-hover:text-logo-blue transition-colors">
-                      {service.title}
+                      <Link to={service.path}>{service.title}</Link>
                     </h3>
                     <p className="text-slate-600 text-sm leading-relaxed mb-6">
                       {service.shortDescription}
                     </p>
                   </div>
 
-                  {/* Action Link */}
-                  <button
-                    onClick={() => setSelectedService(service)}
+                  {/* Action Link to Dedicated Page */}
+                  <Link
+                    to={service.path}
                     className="inline-flex items-center text-xs font-extrabold uppercase tracking-wider text-logo-blue hover:text-logo-graphite transition-colors pt-4 border-t border-slate-100"
                   >
-                    <span>Learn More</span>
+                    <span>View Dedicated Page</span>
                     <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform text-logo-cyan" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             );
@@ -92,12 +90,6 @@ const Services = () => {
         </div>
 
       </div>
-
-      {/* Expanded Modal */}
-      <ServiceModal
-        service={selectedService}
-        onClose={() => setSelectedService(null)}
-      />
     </section>
   );
 };
