@@ -240,9 +240,11 @@ function copyDirSync(src, dest) {
   }
 });
 
+fs.copyFileSync(path.join(distDir, 'index.html'), path.join(rootDir, 'index.html'));
 fs.copyFileSync(path.join(distDir, '404.html'), path.join(rootDir, '404.html'));
 if (fs.existsSync(path.join(distDir, '.nojekyll'))) {
   fs.copyFileSync(path.join(distDir, '.nojekyll'), path.join(rootDir, '.nojekyll'));
 }
-console.log('Synced pre-rendered routes, 404.html & assets to root directory successfully!');
+console.log('Synced compiled index.html, pre-rendered routes, 404.html & assets to root directory successfully!');
+
 
