@@ -1,91 +1,1289 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Single Page Apps for GitHub Pages URL Restore Script -->
-    <script type="text/javascript">
-      (function(l) {
-        if (l && l.search && l.search.length > 1 && l.search[1] === '/' ) {
-          try {
-            var decoded = l.search.slice(1).split('&').map(function(s) { 
-              return s.replace(/~and~/g, '&')
-            }).join('?');
-            window.history.replaceState(null, null,
-                l.pathname.slice(0, -1) + decoded + l.hash
-            );
-          } catch(e) {}
-        }
-      }(window.location));
-    </script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infrastructure & Blasting Projects | SV Infra Developers</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; max-width: 100vw; overflow-x: hidden; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #f8fafc; color: #0f172a; min-height: 100vh; }
 
-    <!-- Primary Meta Tags -->
-    <title>Infrastructure & Blasting Projects | SV Infra Developers</title>
-    <meta name="title" content="Infrastructure & Blasting Projects | SV Infra Developers" />
-    <meta name="description" content="Browse infrastructure projects executed by SV Infra Developers for MEIL, NCC Limited, Aparna Enterprises, Kalpataru, and Telangana/AP Governments." />
-    <meta name="keywords" content="SV Infra Developers, Control Blasting, Open Blasting, Chemical Blasting, Earthwork Excavations, Road Works, Canal Works, Infrastructure Hyderabad, Mr. K. Sai Kishore, Infrastructure Development India, Civil Engineering Hyderabad, Rock Breaking Contractors" />
-    <meta name="author" content="SV Infra Developers" />
-    <meta name="robots" content="index, follow" />
+/* ── HEADER ── */
+header { background: linear-gradient(135deg, #7B1A1A 0%, #4a0e0e 100%); padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 64px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 100%; box-sizing: border-box; }
+.header-logo { display: flex; align-items: center; gap: 12px; }
+.header-logo-text { color: #fff; font-family: 'Playfair Display', serif; font-size: 20px; letter-spacing: 0.3px; }
+.header-logo-text span { color: #C8973A; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.header-stats { display: flex; gap: 6px; }
+.stat-pill { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 14px; color: #fff; font-size: 11px; font-weight: 600; }
+.stat-dot { width: 7px; height: 7px; border-radius: 50%; }
+.dot-available { background: #4ade80; }
+.dot-reserved  { background: #facc15; }
+.dot-sold      { background: #f87171; }
+.sync-badge { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 20px; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: background 0.2s; }
+.sync-badge:hover { background: rgba(255,255,255,0.25); }
+.sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #e8a87c; display: inline-block; }
+.sync-dot.syncing { background: #facc15; animation: pulse 1s infinite; }
+.sync-dot.err     { background: #f87171; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://svinfradeveloper.com/projects" />
+/* ── ACTION BUTTONS ── */
+.updates-btn, .action-btn { position: relative; display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); border: none; color: #fff; padding: 6px 13px; border-radius: 20px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+.updates-btn:hover, .action-btn:hover { background: rgba(255,255,255,0.28); transform: translateY(-1px); }
+.updates-count { background: #e74c3c; color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; min-width: 18px; text-align: center; display: none; animation: badgePulse 2s infinite; }
+.updates-count.show { display: inline-block; }
+@keyframes badgePulse { 0%,100%{box-shadow:0 0 0 0 rgba(231,76,60,0.5)} 60%{box-shadow:0 0 0 5px rgba(231,76,60,0)} }
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="SV Infra Developers" />
-    <meta property="og:url" content="https://svinfradeveloper.com/projects" />
-    <meta property="og:title" content="Infrastructure & Blasting Projects | SV Infra Developers" />
-    <meta property="og:description" content="Browse infrastructure projects executed by SV Infra Developers for MEIL, NCC Limited, Aparna Enterprises, Kalpataru, and Telangana/AP Governments." />
-    <meta property="og:image" content="https://svinfradeveloper.com/hero-sunset-excavator.jpg" />
+/* ── UPDATES PANEL ── */
+.upanel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: none; z-index: 900; backdrop-filter: blur(2px); }
+.upanel-overlay.open { display: block; }
+.updates-panel { position: fixed; right: 0; top: 0; bottom: 0; width: 370px; background: #fff; box-shadow: -6px 0 30px rgba(0,0,0,0.18); display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease; z-index: 901; }
+.updates-panel.open { transform: translateX(0); }
+.upanel-head { background: linear-gradient(135deg,#7B1A1A,#4a0e0e); padding: 18px 18px 14px; color: #fff; display: flex; justify-content: space-between; align-items: flex-start; }
+.upanel-head h3 { font-family: 'Playfair Display', serif; font-size: 18px; margin: 0; }
+.upanel-head p  { font-size: 11px; opacity: 0.7; margin: 3px 0 0; }
+.upanel-close { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.upanel-stats { display: flex; border-bottom: 1px solid #f0e8e0; }
+.upstat { flex: 1; padding: 10px 6px; text-align: center; border-right: 1px solid #f0e8e0; }
+.upstat:last-child { border-right: none; }
+.upstat-n { font-size: 20px; font-weight: 700; font-family: 'Playfair Display', serif; }
+.upstat-l { font-size: 10px; text-transform: uppercase; letter-spacing: 0.4px; color: #999; margin-top: 2px; }
+.upstat.s-sold .upstat-n { color: #c0392b; }
+.upstat.s-res  .upstat-n { color: #e67e22; }
+.upstat.s-avl  .upstat-n { color: #27ae60; }
+.upanel-filters { display: flex; gap: 5px; padding: 10px 14px; border-bottom: 1px solid #f0e8e0; background: #fdf8f0; flex-wrap: wrap; }
+.upf-btn { padding: 4px 11px; border-radius: 12px; border: 1px solid #ddd; background: #fff; font-size: 11px; font-weight: 600; cursor: pointer; color: #888; transition: all 0.15s; }
+.upf-btn.active            { background: #7B1A1A; color: #fff; border-color: #7B1A1A; }
+.upf-btn.f-sold.active     { background: #c0392b; border-color: #c0392b; }
+.upf-btn.f-res.active      { background: #e67e22; border-color: #e67e22; }
+.upf-btn.f-avl.active      { background: #27ae60; border-color: #27ae60; }
+.upanel-feed { flex: 1; overflow-y: auto; padding: 10px 14px; }
+.feed-item { display: flex; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-bottom: 7px; border: 1px solid transparent; transition: transform 0.12s; }
+.feed-item:hover { transform: translateX(2px); }
+.feed-item.fi-sold      { background: #fdf0f0; border-color: #f5c6c6; }
+.feed-item.fi-reserved  { background: #fffbf0; border-color: #fde8a0; }
+.feed-item.fi-available { background: #fdf8f0; border-color: #b8f0cc; }
+.fi-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.fi-body { flex: 1; min-width: 0; }
+.fi-title { font-size: 13px; font-weight: 700; color: #1a2e1a; }
+.fi-status { font-weight: 700; }
+.fi-status.st-sold      { color: #c0392b; }
+.fi-status.st-reserved  { color: #e67e22; }
+.fi-status.st-available { color: #27ae60; }
+.fi-sub  { font-size: 11px; color: #777; margin-top: 2px; }
+.fi-meta { font-size: 10px; color: #aaa; margin-top: 3px; }
+.fi-time { font-size: 10px; color: #bbb; flex-shrink: 0; margin-top: 3px; white-space: nowrap; }
+.upanel-empty { text-align: center; padding: 40px 20px; color: #bbb; }
+.upanel-empty .ei { font-size: 44px; margin-bottom: 10px; }
+.upanel-footer { padding: 8px 14px; border-top: 1px solid #f0e8e0; font-size: 10px; color: #bbb; text-align: center; background: #fdf8f0; }
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://svinfradeveloper.com/" />
-    <meta property="twitter:title" content="SV Infra Developers | Rock Blasting & Infrastructure Construction Services" />
-    <meta property="twitter:description" content="Specializing in Control Blasting, Open Blasting, Chemical Blasting, Earthwork Excavations, Road Works, and Canal Works." />
-    <meta property="twitter:image" content="https://svinfradeveloper.com/hero-sunset-excavator.jpg" />
+/* ── SETUP BANNER ── */
+#setup-banner { display: none; background: #fff3cd; border: 1px solid #ffc107; color: #856404; padding: 10px 20px; font-size: 13px; gap: 8px; align-items: center; }
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+/* ── SUMMARY CARDS ── */
+.summary-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; padding: 18px 24px 0; width: 100%; box-sizing: border-box; }
+.summary-card { background: #fff; border-radius: 12px; padding: 16px 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+.sc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; margin-bottom: 4px; font-weight: 600; }
+.sc-value { font-size: 28px; font-weight: 700; font-family: 'Playfair Display', serif; color: #7B1A1A; }
+.sc-icon { font-size: 28px; opacity: 0.75; }
+.sc-available .sc-value { color: #16a34a; }
+.sc-reserved  .sc-value { color: #d97706; }
+.sc-sold      .sc-value { color: #dc2626; }
+.sc-mortgage  .sc-value { color: #4338ca; }
+.sc-progress { margin: 12px 24px 0; background: #fff; border-radius: 12px; padding: 12px 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; width: calc(100% - 48px); box-sizing: border-box; }
+.sc-progress label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; font-weight: 600; }
+.progress-bar { background: #f1f5f9; border-radius: 8px; height: 10px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg,#7B1A1A,#c0392b); border-radius: 8px; transition: width 0.6s ease; }
 
-    <!-- Schema.org JSON-LD for Google Rich Results -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "GeneralContractor",
-      "name": "SV Infra Developers",
-      "alternateName": "SV Infra",
-      "image": "https://svinfradeveloper.com/logo.png",
-      "@id": "https://svinfradeveloper.com/#organization",
-      "url": "https://svinfradeveloper.com/",
-      "telephone": "+919603345669",
-      "email": "svinfradevelopers8@gmail.com",
-      "priceRange": "₹₹₹",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "2-1-21/23, Saikiran Colony, KPHB",
-        "addressLocality": "Hyderabad",
-        "addressRegion": "Telangana",
-        "postalCode": "500072",
-        "addressCountry": "IN"
-      },
-      "founder": {
-        "@type": "Person",
-        "name": "Mr. K. Sai Kishore"
-      },
-      "foundingDate": "2023",
-      "description": "Leading infrastructure development and engineering firm based in Hyderabad, specializing in Control Blasting, Open Blasting, Chemical Blasting, Earthwork Excavations, Road Works, and Canal Works."
-    }
-    </script>
-    <script type="module" crossorigin src="/assets/app.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/app.css">
-    <script type="application/ld+json" id="route-static-schema">{"@context":"https://schema.org","@type":"CollectionPage","name":"Infrastructure Projects","url":"https://svinfradeveloper.com/projects"}</script>
+/* ── CONTROLS & EXPORT BAR ── */
+.controls { padding: 14px 24px 6px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; width: 100%; box-sizing: border-box; }
+.filter-btn { padding: 6px 14px; border-radius: 20px; border: 1.5px solid #cbd5e1; background: #fff; font-size: 12px; font-weight: 600; cursor: pointer; color: #475569; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.filter-btn:hover  { border-color: #7B1A1A; color: #7B1A1A; }
+.filter-btn.active { background: #7B1A1A; color: #fff; border-color: #7B1A1A; }
+.filter-btn.available.active { background: #16a34a; border-color: #16a34a; }
+.filter-btn.reserved.active  { background: #d97706; border-color: #d97706; }
+.filter-btn.sold.active      { background: #dc2626; border-color: #dc2626; }
+.filter-btn.mortgage.active   { background: #4338ca; border-color: #4338ca; }
+.search-box { flex: 1; min-width: 180px; max-width: 260px; }
+.search-box input { width: 100%; padding: 7px 14px; border-radius: 20px; border: 1.5px solid #cbd5e1; font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; transition: border 0.2s; }
+.search-box input:focus { border-color: #7B1A1A; }
+.tool-btn-group { display: flex; gap: 6px; margin-left: auto; }
+.tool-btn { padding: 6px 13px; border-radius: 18px; border: 1.5px solid #cbd5e1; background: #fff; color: #334155; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.tool-btn:hover { border-color: #7B1A1A; color: #7B1A1A; background: #fdf8f0; }
+
+/* ── SIZE FILTER BAR ── */
+.size-filter-bar { padding: 0 24px 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; box-sizing: border-box; }
+.size-filter-label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.6px; white-space: nowrap; }
+.size-presets { display: flex; gap: 5px; flex-wrap: wrap; }
+.size-preset-btn, .budget-preset-btn { padding: 4px 11px; border-radius: 14px; border: 1.5px solid #cbd5e1; background: #fff; font-size: 11px; font-weight: 600; cursor: pointer; color: #475569; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.size-preset-btn:hover, .budget-preset-btn:hover { border-color: #7B1A1A; color: #7B1A1A; }
+.size-preset-btn.active, .budget-preset-btn.active { background: #7B1A1A; color: #fff; border-color: #7B1A1A; }
+.size-custom { display: flex; align-items: center; gap: 5px; margin-left: 4px; }
+.size-custom input { width: 72px; padding: 4px 8px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; text-align: center; transition: border 0.2s; }
+.size-custom input:focus { border-color: #7B1A1A; }
+.size-custom span { font-size: 11px; color: #94a3b8; }
+.size-clear { padding: 4px 10px; border-radius: 14px; border: none; background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 600; cursor: pointer; display: none; font-family: 'DM Sans', sans-serif; }
+.size-clear.show { display: inline-block; }
+
+/* ── GRID SECTION ── */
+.grid-section { padding: 4px 24px 32px; width: 100%; box-sizing: border-box; }
+.grid-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.grid-title-text { font-size: 13px; font-weight: 700; color: #334155; }
+.plot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 8px; width: 100%; }
+
+/* ── COMPACT HIGH-DENSITY PLOT CARD ── */
+.plot-card { background: #fff; border-radius: 8px; padding: 8px 7px 6px; border: 1.5px solid #e2e8f0; cursor: pointer; transition: all 0.15s; position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px; }
+.plot-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); border-color: #7B1A1A; z-index: 10; }
+.plot-card.status-sold      { background: #fef2f2; border-color: #fca5a5; }
+.plot-card.status-reserved  { background: #fffbeb; border-color: #fde68a; }
+.plot-card.status-available { background: #f0fdf4; border-color: #bbf7d0; }
+.plot-card.status-mortgage  { background: #eeef2f5; border-color: #c7d2fe; }
+
+.pc-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.pc-num { font-size: 14px; font-weight: 700; font-family: 'Playfair Display', serif; color: #7B1A1A; line-height: 1.1; }
+.pc-corner { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.corner-available { background: #16a34a; }
+.corner-reserved  { background: #d97706; }
+.corner-sold      { background: #dc2626; }
+.corner-mortgage { background: #4338ca; }
+
+.pc-mid { margin-top: 3px; }
+.pc-size { font-size: 10px; font-weight: 600; color: #475569; }
+.pc-facing { font-size: 9px; color: #64748b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; margin-top: 1px; }
+
+.pc-bottom { margin-top: 5px; display: flex; justify-content: space-between; align-items: center; gap: 2px; }
+.pc-price-chip { font-size: 9px; font-weight: 700; color: #1e293b; background: rgba(0,0,0,0.04); padding: 1px 4px; border-radius: 4px; }
+.pc-badge { padding: 1px 5px; border-radius: 6px; font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2px; text-align: center; }
+.badge-available { background: #dcfce7; color: #15803d; }
+.badge-reserved  { background: #fef3c7; color: #92400e; }
+.badge-sold      { background: #fee2e2; color: #991b1b; }
+.badge-mortgage  { background: #e0e7ff; color: #3730a3; }
+
+/* ── HOVER QUICK PREVIEW TOOLTIP ── */
+#plot-tooltip { position: fixed; display: none; background: #0f172a; color: #fff; padding: 12px 14px; border-radius: 12px; font-size: 11px; z-index: 1000; pointer-events: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3); min-width: 200px; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
+#plot-tooltip.show { display: block; }
+.tt-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 6px; margin-bottom: 6px; }
+.tt-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: #fde047; }
+.tt-badge { padding: 2px 6px; border-radius: 6px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
+.tt-row { display: flex; justify-content: space-between; margin-bottom: 3px; font-size: 11px; color: #cbd5e1; }
+.tt-row strong { color: #fff; }
+.tt-price { font-size: 13px; font-weight: 700; color: #4ade80; margin-top: 6px; padding-top: 5px; border-top: 1px dashed rgba(255,255,255,0.2); display: flex; justify-content: space-between; }
+
+/* ── LEGEND ── */
+.legend { display: flex; gap: 14px; padding: 0 24px 8px; font-size: 12px; color: #64748b; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-weight: 500; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ── ERROR STATE BOX ── */
+.error-box { background: #fff; border: 1.5px solid #fee2e2; border-radius: 16px; padding: 28px; text-align: center; max-width: 600px; margin: 20px auto; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+.error-box h3 { font-family: 'Playfair Display', serif; color: #991b1b; font-size: 20px; margin-bottom: 8px; }
+.error-box p { font-size: 13px; color: #666; margin-bottom: 16px; line-height: 1.5; }
+.error-details { background: #fef2f2; border-radius: 8px; padding: 10px 14px; font-family: monospace; font-size: 12px; color: #991b1b; word-break: break-all; margin-bottom: 16px; text-align: left; }
+.retry-btn { padding: 10px 22px; background: #7B1A1A; color: #fff; border: none; border-radius: 20px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; }
+
+/* ── RESPONSIVE TABLET & MOBILE ── */
+@media (max-width: 900px) {
+  header { padding: 0 14px; height: 56px; }
+  .header-logo-text { font-size: 17px; }
+  .header-stats { gap: 5px; }
+  .stat-pill { font-size: 10px; padding: 3px 7px; }
+  .updates-btn, .action-btn { font-size: 11px; padding: 4px 10px; }
+  .sync-badge { font-size: 11px; padding: 4px 9px; }
+  .summary-row { grid-template-columns: repeat(3,1fr); gap: 10px; padding: 14px 14px 0; }
+  .summary-card { padding: 14px 14px; }
+  .sc-value { font-size: 24px; }
+  .sc-progress { margin: 10px 14px 0; padding: 12px 14px; }
+  .controls { padding: 12px 14px 6px; gap: 7px; }
+  .filter-btn { padding: 5px 12px; font-size: 12px; }
+  .search-box { min-width: 140px; }
+  .legend { padding: 0 14px 8px; }
+  .grid-section { padding: 6px 14px 24px; }
+  .plot-grid { grid-template-columns: repeat(auto-fill,minmax(85px,1fr)); gap: 6px; }
+}
+
+@media (max-width: 600px) {
+  header { padding: 10px 12px; height: auto; min-height: 56px; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+  .header-logo { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+  .header-logo-text { font-size: 16px; }
+  .header-right { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 6px; }
+  .header-stats { display: flex; gap: 4px; overflow-x: auto; width: 100%; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+  .stat-pill { font-size: 9.5px; padding: 3px 7px; flex-shrink: 0; }
+  .stat-dot { width: 6px; height: 6px; }
+  .updates-btn, .action-btn { padding: 4px 10px; font-size: 11px; }
+  .sync-badge { padding: 4px 10px; font-size: 11px; }
+  
+  .summary-row { grid-template-columns: repeat(2,1fr); gap: 8px; padding: 10px 10px 0; width: 100%; box-sizing: border-box; }
+  .summary-card { padding: 12px 10px; border-radius: 10px; }
+  .sc-label { font-size: 9px; letter-spacing: 0.5px; }
+  .sc-value { font-size: 22px; }
+  .sc-icon { font-size: 22px; }
+  .sc-progress { margin: 8px 10px 0; padding: 10px 12px; border-radius: 10px; width: calc(100% - 20px); box-sizing: border-box; }
+  .sc-progress label { font-size: 10px; }
+  
+  .controls { padding: 10px 10px 4px; gap: 6px; width: 100%; box-sizing: border-box; }
+  .filter-btn { padding: 5px 10px; font-size: 11px; border-radius: 16px; }
+  .search-box { width: 100%; min-width: unset; max-width: 100%; order: 5; }
+  .search-box input { font-size: 13px; padding: 8px 14px; }
+  .tool-btn-group { order: 6; width: 100%; justify-content: flex-end; }
+  
+  .size-filter-bar { padding: 0 10px 6px; gap: 6px; width: 100%; box-sizing: border-box; }
+  .size-presets { gap: 4px; }
+  .size-preset-btn, .budget-preset-btn { font-size: 10px; padding: 3px 8px; }
+  .size-custom input { width: 60px; font-size: 11px; padding: 3px 4px; }
+
+  .legend { padding: 0 10px 6px; font-size: 10.5px; gap: 10px; flex-wrap: wrap; }
+  .grid-section { padding: 4px 10px 24px; width: 100%; box-sizing: border-box; }
+  .plot-grid { grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%; }
+  .plot-card { padding: 6px 5px 5px; min-height: 74px; }
+  .pc-num { font-size: 12px; }
+  .pc-size { font-size: 8.5px; }
+  .pc-facing { font-size: 8.5px; }
+  .pc-price-chip { font-size: 8px; padding: 1px 3px; }
+  .pc-badge { font-size: 7.5px; padding: 1px 3px; }
+  .updates-panel { width: 100%; }
+  .modal-overlay { align-items: flex-end; }
+  .modal-box { width: 100%; max-width: 100%; border-radius: 18px 18px 0 0; max-height: 92vh; }
+  .modal-header { padding: 16px 16px 12px; border-radius: 18px 18px 0 0; }
+  .modal-header h2 { font-size: 18px; }
+  .modal-body { padding: 14px 16px 20px; }
+}
+
+/* ── PRINT STYLING ── */
+@media print {
+  header, .controls, .size-filter-bar, .updates-btn, .sync-badge, .tool-btn-group, #loading-overlay, .modal-overlay, #plot-tooltip { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .summary-row { grid-template-columns: repeat(5,1fr) !important; padding: 0 !important; }
+  .summary-card { border: 1px solid #ccc !important; box-shadow: none !important; }
+  .plot-grid { grid-template-columns: repeat(6, 1fr) !important; gap: 6px !important; }
+  .plot-card { border: 1px solid #aaa !important; background: #fff !important; -moz-column-break-inside: avoid; break-inside: avoid; }
+}
+
+/* ── LOADING ── */
+#loading-overlay { position: fixed; inset: 0; background: rgba(248,250,252,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 500; gap: 16px; }
+#loading-overlay.hidden { display: none; }
+.loading-spinner { width: 44px; height: 44px; border: 4px solid #cbd5e1; border-top-color: #7B1A1A; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-size: 14px; color: #475569; font-weight: 600; }
+
+/* ── MODALS ── */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 800; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
+.modal-overlay.open { display: flex; }
+.modal-box { background: #fff; border-radius: 18px; width: 480px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.25); }
+.modal-header { background: linear-gradient(135deg,#7B1A1A,#4a0e0e); padding: 20px 22px 16px; border-radius: 18px 18px 0 0; color: #fff; display: flex; justify-content: space-between; align-items: flex-start; }
+.modal-header h2 { font-family: 'Playfair Display',serif; font-size: 22px; }
+.modal-header p  { font-size: 12px; opacity: 0.7; margin-top: 4px; }
+.modal-close { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.modal-body  { padding: 20px 22px 22px; }
+.detail-section { background: #fdf8f0; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; border: 1px solid #f0e8e0; }
+.detail-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #C8973A; margin-bottom: 10px; font-weight: 700; }
+.detail-row  { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+.detail-row:last-child { margin-bottom: 0; }
+.detail-row span { color: #666; }
+.detail-row strong { color: #1a2e1a; font-weight: 600; }
+.price-highlight { background: #7B1A1A; color: #fff !important; padding: 10px 14px; border-radius: 10px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
+.price-highlight span { font-size: 12px; opacity: 0.85; }
+.price-highlight strong { font-size: 18px; font-family: 'Playfair Display',serif; }
+.booking-info-card { background: #fff; border: 1px solid #f0e8e0; border-radius: 10px; padding: 12px 14px; margin-top: 12px; }
+.booking-info-card h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #C8973A; margin-bottom: 8px; font-weight: 700; }
+.booking-info-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+.booking-info-row span   { color: #888; }
+.booking-info-row strong { color: #1a2e1a; }
+.dm-book-btn { width: 100%; margin-top: 14px; padding: 12px; background: #7B1A1A; color: #fff; border: none; border-radius: 12px; font-family: 'DM Sans',sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s; }
+.dm-book-btn:hover { opacity: 0.9; }
+
+/* ── BOOKING MODAL ── */
+.status-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.status-opt { padding: 12px 6px; border-radius: 12px; border: 2px solid #f0e8e0; cursor: pointer; text-align: center; transition: all 0.15s; font-weight: 600; font-size: 13px; }
+.status-opt:hover { border-color: #7B1A1A; }
+.status-opt.selected.opt-available { background: #f0fdf4; border-color: #27ae60; color: #15803d; }
+.status-opt.selected.opt-reserved  { background: #fef3c7; border-color: #d97706; color: #92400e; }
+.status-opt.selected.opt-sold      { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+.opt-icon { font-size: 20px; margin-bottom: 4px; }
+.modal-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #888; margin-bottom: 5px; margin-top: 12px; font-weight: 600; }
+.modal-input { width: 100%; padding: 10px 14px; border: 1.5px solid #f0e8e0; border-radius: 10px; font-family: 'DM Sans',sans-serif; font-size: 14px; outline: none; transition: border 0.2s; }
+.modal-input:focus { border-color: #7B1A1A; }
+.modal-select { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; }
+.modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+.btn-cancel { flex: 1; padding: 11px; border-radius: 10px; border: 1.5px solid #f0e8e0; background: #fff; font-family: 'DM Sans',sans-serif; font-size: 14px; cursor: pointer; color: #666; font-weight: 600; }
+.btn-save { flex: 2; padding: 11px; border-radius: 10px; border: none; background: linear-gradient(135deg,#7B1A1A,#C8973A); color: #fff; font-family: 'DM Sans',sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+.btn-save:hover    { opacity: 0.9; }
+.btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── PLAN CARDS ── */
+.plan-card { border: 2px solid #f0e8e0; border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: all 0.15s; background: #fff; }
+.plan-card:hover { border-color: #7B1A1A; background: #fdf8f0; }
+.plan-card.selected { border-color: #7B1A1A; background: #fdf8f0; }
+.plan-card-title { font-size: 13px; font-weight: 700; color: #7B1A1A; }
+.plan-card-desc  { font-size: 11px; color: #888; margin-top: 2px; }
+.plan-card-price { font-size: 13px; font-weight: 700; color: #1a2e1a; margin-top: 4px; }
+
+/* ── TOAST ── */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #7B1A1A; color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.2); transition: transform 0.3s ease; z-index: 9999; white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.error { background: #dc2626; }
+</style>
+  <script type="application/ld+json" id="route-static-schema">{"@context":"https://schema.org","@type":"CollectionPage","name":"Infrastructure Projects","url":"https://svinfradeveloper.com/projects"}</script>
 </head>
-  <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-accent-yellow selection:text-navy-950 overflow-x-hidden">
-    <div id="root"></div>
-  </body>
+<body>
+
+<div id="setup-banner">
+  ⚠️ <strong>Setup required:</strong> Replace <code>YOUR_SCRIPT_URL_HERE</code> with your Google Apps Script Web App URL.
+</div>
+
+<!-- HOVER QUICK PREVIEW TOOLTIP -->
+<div id="plot-tooltip">
+  <div class="tt-head">
+    <div class="tt-title" id="tt-plotnum">Plot #—</div>
+    <div class="tt-badge" id="tt-badge">—</div>
+  </div>
+  <div class="tt-row"><span>Size:</span><strong id="tt-size">—</strong></div>
+  <div class="tt-row"><span>Facing:</span><strong id="tt-facing">—</strong></div>
+  <div class="tt-row"><span>Dimensions:</span><strong id="tt-dims">—</strong></div>
+  <div class="tt-row" id="tt-buyer-row" style="display:none;"><span>Buyer:</span><strong id="tt-buyer">—</strong></div>
+  <div class="tt-price"><span>Total Price:</span><strong id="tt-price">—</strong></div>
+</div>
+
+<header>
+  <div class="header-logo">
+    <div class="header-logo-text">Swargaseema's <span>Vibhava</span></div>
+  </div>
+  <div class="header-right">
+    <div class="header-stats">
+      <div class="stat-pill"><span class="stat-dot dot-available"></span><span id="hdr-avail">0</span> Available</div>
+      <div class="stat-pill"><span class="stat-dot dot-reserved"></span><span id="hdr-res">0</span> Reserved</div>
+      <div class="stat-pill"><span class="stat-dot dot-sold"></span><span id="hdr-sold">0</span> Sold</div>
+      <div class="stat-pill"><span class="stat-dot" style="background:#6366f1"></span><span id="hdr-mort">0</span> Mortgage</div>
+    </div>
+    <button class="updates-btn" onclick="toggleUpdatesPanel()" title="Today's Updates">
+      📋 Updates
+      <span class="updates-count" id="updates-count">0</span>
+    </button>
+    <button class="sync-badge" onclick="loadFromSheet()" title="Refresh">
+      <span class="sync-dot" id="sync-dot"></span>
+      <span id="sync-label">Refresh</span>
+    </button>
+  </div>
+</header>
+
+<!-- TODAY'S UPDATES PANEL -->
+<div class="upanel-overlay" id="upanel-overlay" onclick="toggleUpdatesPanel()"></div>
+<div class="updates-panel" id="updates-panel">
+  <div class="upanel-head">
+    <div><h3>📋 Today's Updates</h3><p id="upanel-date"></p></div>
+    <button class="upanel-close" onclick="toggleUpdatesPanel()">✕</button>
+  </div>
+  <div class="upanel-stats">
+    <div class="upstat s-sold"><div class="upstat-n" id="ups-sold">0</div><div class="upstat-l">Sold</div></div>
+    <div class="upstat s-res"><div class="upstat-n" id="ups-res">0</div><div class="upstat-l">Reserved</div></div>
+    <div class="upstat s-avl"><div class="upstat-n" id="ups-avl">0</div><div class="upstat-l">Released</div></div>
+  </div>
+  <div class="upanel-filters">
+    <button class="upf-btn active" onclick="filterUpdates('all',this)">All</button>
+    <button class="upf-btn f-sold" onclick="filterUpdates('sold',this)">🏠 Sold</button>
+    <button class="upf-btn f-res"  onclick="filterUpdates('reserved',this)">🔖 Reserved</button>
+    <button class="upf-btn f-avl"  onclick="filterUpdates('available',this)">✅ Released</button>
+  </div>
+  <div class="upanel-feed" id="upanel-feed"></div>
+  <div class="upanel-footer">
+    🔄 Auto-refreshes every 2 minutes &nbsp;|&nbsp;
+    <button onclick="debugLog()" style="background:none;border:none;color:#aaa;cursor:pointer;font-size:10px;text-decoration:underline;">Debug</button>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Loading Vibhava plots…</div>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary-row">
+  <div class="summary-card">
+    <div><div class="sc-label">Total Plots</div><div class="sc-value" id="sc-total">999</div></div>
+    <div class="sc-icon">🗺️</div>
+  </div>
+  <div class="summary-card sc-available">
+    <div><div class="sc-label">Available</div><div class="sc-value" id="sc-avail">—</div></div>
+    <div class="sc-icon">✅</div>
+  </div>
+  <div class="summary-card sc-reserved">
+    <div><div class="sc-label">Reserved</div><div class="sc-value" id="sc-res">—</div></div>
+    <div class="sc-icon">🔖</div>
+  </div>
+  <div class="summary-card sc-sold">
+    <div><div class="sc-label">Sold</div><div class="sc-value" id="sc-sold">—</div></div>
+    <div class="sc-icon">🏠</div>
+  </div>
+  <div class="summary-card sc-mortgage">
+    <div><div class="sc-label">Mortgage</div><div class="sc-value" id="sc-mort">167</div></div>
+    <div class="sc-icon">🏦</div>
+  </div>
+</div>
+<div class="sc-progress">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+    <label style="margin-bottom:0;">Sales Progress</label>
+    <span id="progress-pct" style="font-size:12px;font-weight:600;color:#7B1A1A;">0% sold</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="filter-btn all active"       onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn available"         onclick="setFilter('available',this)">Available</button>
+  <button class="filter-btn reserved"          onclick="setFilter('reserved',this)">Reserved</button>
+  <button class="filter-btn sold"              onclick="setFilter('sold',this)">Sold</button>
+  <button class="filter-btn mortgage"          onclick="setFilter('mortgage',this)">🏦 Mortgage</button>
+  <div class="search-box"><input type="text" placeholder="🔍  Search plot number…" oninput="renderGrid()"></div>
+
+</div>
+
+<!-- SIZE FILTER -->
+<div class="size-filter-bar">
+  <span class="size-filter-label">📐 Size:</span>
+  <div class="size-presets">
+    <button class="size-preset-btn" onclick="setSizePreset(0,200,this)">Under 200</button>
+    <button class="size-preset-btn" onclick="setSizePreset(200,300,this)">200–300</button>
+    <button class="size-preset-btn" onclick="setSizePreset(300,400,this)">300–400</button>
+    <button class="size-preset-btn" onclick="setSizePreset(400,600,this)">400+</button>
+  </div>
+  <div class="size-custom">
+    <input type="number" id="size-min" placeholder="Min" min="0" oninput="onCustomSizeInput()">
+    <span>–</span>
+    <input type="number" id="size-max" placeholder="Max" min="0" oninput="onCustomSizeInput()">
+    <span style="font-size:11px;color:#aaa;">sq.yds</span>
+  </div>
+  <button class="size-clear" id="size-clear" onclick="clearSizeFilter()">✕ Clear</button>
+</div>
+
+<!-- BUDGET FILTER -->
+<div class="size-filter-bar" style="padding-top:0;">
+  <span class="size-filter-label">💰 Budget:</span>
+  <div class="size-presets">
+    <button class="budget-preset-btn" onclick="setBudgetPreset(0,20,this)">Under 20L</button>
+    <button class="budget-preset-btn" onclick="setBudgetPreset(20,25,this)">20L–25L</button>
+    <button class="budget-preset-btn" onclick="setBudgetPreset(25,30,this)">25L–30L</button>
+    <button class="budget-preset-btn" onclick="setBudgetPreset(30,1000,this)">30L+</button>
+  </div>
+  <div class="size-custom">
+    <input type="number" id="budget-min" placeholder="Min L" min="0" step="0.5" oninput="onCustomBudgetInput()">
+    <span>–</span>
+    <input type="number" id="budget-max" placeholder="Max L" min="0" step="0.5" oninput="onCustomBudgetInput()">
+    <span style="font-size:11px;color:#aaa;">Lakhs</span>
+  </div>
+  <button class="size-clear" id="budget-clear" onclick="clearBudgetFilter()">✕ Clear</button>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#16a34a"></div> Available</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div> Reserved</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Sold</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4338ca"></div> Mortgage</div>
+</div>
+
+<!-- PLOT GRID -->
+<div class="grid-section">
+  <div class="grid-header-row">
+    <div class="grid-title-text" id="grid-label">Vibhava Plots Grid</div>
+    <div class="plot-count" id="plot-count" style="font-size:12px;color:#64748b;"></div>
+  </div>
+  <div class="plot-grid" id="plot-grid"></div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><h2 id="dm-title">Plot #—</h2><p id="dm-sub"></p></div>
+      <button class="modal-close" onclick="closeDetailModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-section">
+        <h4>📐 Plot Details</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;">
+          <div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #f0e8e0;">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:#aaa;margin-bottom:3px;">Plot Number</div>
+            <div style="font-size:16px;font-weight:700;color:#7B1A1A;font-family:'Playfair Display',serif;" id="dm-plotnum">—</div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #f0e8e0;">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:#aaa;margin-bottom:3px;">Size</div>
+            <div style="font-size:16px;font-weight:700;color:#7B1A1A;font-family:'Playfair Display',serif;" id="dm-size">—</div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #f0e8e0;">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:#aaa;margin-bottom:3px;">Dimensions</div>
+            <div style="font-size:14px;font-weight:600;color:#1a2e1a;" id="dm-dims">—</div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #f0e8e0;">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:#aaa;margin-bottom:3px;">Facing</div>
+            <div style="font-size:14px;font-weight:600;color:#C8973A;" id="dm-facing">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-section">
+        <h4>💰 Pricing Breakdown</h4>
+        <div class="detail-row"><span>Base Price (per sq.yd)</span><strong id="dm-base">—</strong></div>
+        <div class="detail-row"><span>Plot Size</span><strong id="dm-size2">—</strong></div>
+        <div class="detail-row"><span>Base Amount</span><strong id="dm-baseamt">—</strong></div>
+        <div style="border-top:1px solid #f0e8e0;margin:8px 0;"></div>
+        <div class="detail-row"><span>Additional Charges (per sq.yd)</span><strong id="dm-add">—</strong></div>
+        <div class="detail-row"><span>Additional Amount</span><strong id="dm-addamt">—</strong></div>
+        <div style="border-top:1px solid #f0e8e0;margin:8px 0;"></div>
+        <div class="detail-row"><span>Corpus Fund (per sq.yd)</span><strong id="dm-corpus">—</strong></div>
+        <div class="detail-row"><span>Corpus Fund Amount</span><strong id="dm-corpusamt">—</strong></div>
+        <div class="price-highlight" style="margin-top:10px;">
+          <span>Total Price (Plot Only)</span>
+          <strong id="dm-total">—</strong>
+        </div>
+      </div>
+      <div class="booking-info-card" id="booking-info-card" style="display:none">
+        <h4>📋 Booking Details</h4>
+        <div class="booking-info-row"><span>Buyer</span><strong id="bi-buyer">—</strong></div>
+        <div class="booking-info-row"><span>Sales Person</span><strong id="bi-salesperson">—</strong></div>
+      </div>
+      <button class="dm-book-btn" id="dm-book-btn" onclick="openBookingModal()">
+        ✏️ Book / Update Plot
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="booking-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><h2 id="bk-title">Book Plot</h2><p id="bk-sub"></p></div>
+      <button class="modal-close" onclick="closeBookingModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="status-options">
+        <div class="status-opt opt-available" onclick="selectStatus('available')">
+          <div class="opt-icon">✅</div>Release
+        </div>
+        <div class="status-opt opt-reserved" onclick="selectStatus('reserved')">
+          <div class="opt-icon">🔖</div>Reserve
+        </div>
+        <div class="status-opt opt-sold" onclick="selectStatus('sold')">
+          <div class="opt-icon">🏠</div>Sold
+        </div>
+      </div>
+      <label class="modal-label">NAME <span style="color:#aaa;font-weight:400;text-transform:none;font-size:11px;">(required if reserved/sold)</span></label>
+      <input class="modal-input" id="modal-buyer" type="text" placeholder="Enter buyer name…">
+      <label class="modal-label">PHONE NUMBER <span style="color:#aaa;font-weight:400;text-transform:none;font-size:11px;">(required if reserved/sold)</span></label>
+      <input class="modal-input" id="modal-phone" type="tel" placeholder="Enter phone number…">
+      <label class="modal-label">BOOKING DATE</label>
+      <input class="modal-input" id="modal-date" type="date">
+      <label class="modal-label">PAYMENT PLAN</label>
+      <div id="plan-loading" style="font-size:12px;color:#aaa;padding:8px 0;">Loading plans…</div>
+      <div id="plan-cards" style="display:none;flex-direction:column;gap:8px;"></div>
+      <div id="plan-price-box" style="display:none;background:#fdf8f0;border:1.5px solid #f0e8e0;border-radius:12px;padding:14px 16px;margin-top:10px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:#C8973A;font-weight:700;margin-bottom:10px;">💰 Plan Pricing</div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+          <span style="color:#666;">Base Price/sq.yd</span><strong id="pp-base" style="color:#1a2e1a;">—</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+          <span style="color:#666;">Add. Charges/sq.yd</span><strong id="pp-add" style="color:#1a2e1a;">—</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+          <span style="color:#666;">Corpus Fund/sq.yd</span><strong id="pp-corpus" style="color:#1a2e1a;">—</strong>
+        </div>
+        <div style="background:#7B1A1A;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+          <span style="color:#fff;font-size:12px;opacity:0.85;">Total Price</span>
+          <strong id="pp-total" style="color:#fff;font-size:18px;font-family:'Playfair Display',serif;">—</strong>
+        </div>
+        <div id="pp-breakdown" style="margin-top:10px;padding-top:10px;border-top:1px solid #f0e8e0;font-size:12px;color:#888;"></div>
+      </div>
+      <label class="modal-label">SALES PERSON NAME <span style="color:#aaa;font-weight:400;text-transform:none;font-size:11px;">(your name)</span></label>
+      <select class="modal-input modal-select" id="modal-salesperson-select" onchange="handleSalespersonSelect(this.value)">
+        <option value="">— Select Sales Person —</option>
+        <option value="Bhanu">Bhanu</option>
+        <option value="Mohan">Mohan</option>
+        <option value="Ramesh">Ramesh</option>
+        <option value="Venu">Venu</option>
+        <option value="Praveen">Praveen</option>
+        <option value="Mahesh">Mahesh</option>
+        <option value="Naveen">Naveen</option>
+        <option value="Narsi Reddy">Narsi Reddy</option>
+        <option value="__other__">Other (type name below)</option>
+      </select>
+      <input class="modal-input" id="modal-salesperson" type="text" placeholder="Enter name…" style="display:none;margin-top:6px;">
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeBookingModal()">Cancel</button>
+        <button class="btn-save" id="btn-save" onclick="saveStatus()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toast-msg">Saved!</span></div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziC-vJXceSirac1OtOj5xeQIrjY0EPoA9ETAYc9hYykAnyMIZUhYVM1PfxXbzz7fFClA/exec';
+
+const MORTGAGE_PLOTS = new Set([251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,293,294,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600,601,602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,618,619,620,621,622,623,624,625,626,627,628,629,630,631,632,633,634,635,636,637,638,639,640,641,642,643,644,645,646,647,648,649,650,651,652,653,654,655,939,940,941,942,943,944,945,946,947,948,949,950,951,952,953,954,955,956,957,958,959,960,961,962,963,964,965,966,967,968,969,970,971,972,973,974,975,976,977,978,979,980,981,982,983,984,985,986,987,988,989,990,991,992,993,994,995,996,997,998,999]);
+
+let plotDefs      = [];
+let currentFilter = 'all';
+let sizeMin       = null;
+let sizeMax       = null;
+let budgetMin     = null;
+let budgetMax     = null;
+let plansCache    = null;
+let selectedPlan  = null;
+let currentPlotId = null;
+let selectedStatus = null;
+
+// ── SHEET LOAD ────────────────────────────────────────────────────────────
+async function loadFromSheet() {
+  if (SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
+    document.getElementById('setup-banner').style.display = 'flex';
+    document.getElementById('loading-overlay').classList.add('hidden');
+    setSyncStatus('err', 'Not configured');
+    return;
+  }
+  setSyncStatus('syncing', 'Loading…');
+  try {
+    const res  = await fetch(`${SCRIPT_URL}?action=getAll`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    const text = await res.text();
+    let rows;
+    try {
+      rows = JSON.parse(text);
+    } catch(err) {
+      console.error('Apps Script response was not valid JSON:', text);
+      throw new Error('Google Sheet deployment error (Received HTML instead of JSON).');
+    }
+    
+    plotDefs = rows.map(r => {
+      const pIdNum = Number(r.plotId);
+      let statusVal = (r.status || '').toString().trim().toLowerCase();
+      
+      if (!statusVal && MORTGAGE_PLOTS.has(pIdNum)) {
+        statusVal = 'mortgage';
+      } else if (!statusVal) {
+        statusVal = 'available';
+      }
+
+      return {
+        id:          String(r.plotId),
+        size:        r.size        || '—',
+        facing:      r.facing      || '—',
+        dims:        r.dims        || '—',
+        baseRate:    Number(r.baseRate)  || 0,
+        addRate:     Number(r.addRate)   || 0,
+        corpusFund:  Number(r.corpusFund)|| 0,
+        total:       Number(r.total)     || 0,
+        status:      statusVal,
+        buyer:       r.buyer       || '',
+        phone:       r.phone       || '',
+        scheme:      r.scheme      || '',
+        salesperson: r.salesperson || '',
+      };
+    });
+    renderGrid();
+    updateCounts();
+    setSyncStatus('ok', 'Live');
+    document.getElementById('loading-overlay').classList.add('hidden');
+    loadTodaysLog();
+  } catch(e) {
+    console.error('Failed to load from Google Sheet:', e);
+    setSyncStatus('err', 'Offline');
+    document.getElementById('loading-overlay').classList.add('hidden');
+    renderErrorState(e.message);
+  }
+}
+
+function renderErrorState(errMsg) {
+  const grid = document.getElementById('plot-grid');
+  grid.innerHTML = `
+    <div class="error-box" style="grid-column: 1 / -1;">
+      <h3>⚠️ Connection Error</h3>
+      <p>Could not connect to Google Sheet backend.</p>
+      <div class="error-details">${errMsg || 'NetworkError when attempting to fetch resource.'}</div>
+      <p style="font-size:12px;color:#888;margin-bottom:14px;">Make sure your Google Apps Script Deployment access is set to <b>"Anyone"</b>.</p>
+      <button class="retry-btn" onclick="loadFromSheet()">🔄 Retry Connection</button>
+    </div>`;
+}
+
+function setSyncStatus(state, label) {
+  const dot = document.getElementById('sync-dot');
+  const lbl = document.getElementById('sync-label');
+  dot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'err' ? ' err' : '');
+  lbl.textContent = label;
+}
+
+// ── SAVE ──────────────────────────────────────────────────────────────────
+async function saveToSheet(plotId, status, buyer, phone, bookingDate, scheme, salesperson) {
+  const params = new URLSearchParams({ action:'update', plotId, status, buyer, phone, bookingDate, scheme, salesperson });
+  const res  = await fetch(`${SCRIPT_URL}?${params.toString()}`, { cache: 'no-store' });
+  const data = await res.json();
+  if (data.result !== 'ok') throw new Error(data.error || 'Unknown error');
+  return data;
+}
+
+// ── UTILITY FORMATTERS ───────────────────────────────────────────────────
+function formatShortPrice(total) {
+  if (!total) return '—';
+  if (total >= 10000000) return `₹${(total/10000000).toFixed(2)} Cr`;
+  if (total >= 100000) return `₹${(total/100000).toFixed(2)} L`;
+  return `₹${total.toLocaleString('en-IN')}`;
+}
+
+function getShortFacing(facing) {
+  if (!facing || facing === '—') return '—';
+  if (facing.includes('E/F') || facing.toLowerCase().includes('east')) return 'East';
+  if (facing.includes('W/F') || facing.toLowerCase().includes('west')) return 'West';
+  if (facing.includes('N/F') || facing.toLowerCase().includes('north')) return 'North';
+  if (facing.includes('S/F') || facing.toLowerCase().includes('south')) return 'South';
+  return facing;
+}
+
+// ── RENDER GRID (HIGH-DENSITY VIEW WITH PRICE CHIPS & TOOLTIPS) ───────────
+function renderGrid() {
+  const query = document.querySelector('.search-box input').value.trim().toLowerCase();
+  let plots = plotDefs;
+
+  if (currentFilter !== 'all') plots = plots.filter(p => p.status === currentFilter);
+  if (query) plots = plots.filter(p => p.id.includes(query));
+  if (sizeMin !== null) plots = plots.filter(p => parseFloat(p.size) >= sizeMin);
+  if (sizeMax !== null) plots = plots.filter(p => parseFloat(p.size) <= sizeMax);
+  if (budgetMin !== null) plots = plots.filter(p => p.total >= budgetMin * 100000);
+  if (budgetMax !== null) plots = plots.filter(p => p.total <= budgetMax * 100000);
+
+  document.getElementById('plot-count').textContent = `${plots.length} plots`;
+  document.getElementById('grid-label').textContent = `Vibhava Grid — ${plots.length} plots shown`;
+
+  const grid = document.getElementById('plot-grid');
+  grid.innerHTML = plots.map(p => `
+    <div class="plot-card status-${p.status}" 
+         onclick="openDetailModal('${p.id}')"
+         onmouseenter="showTooltip(event, '${p.id}')"
+         onmousemove="moveTooltip(event)"
+         onmouseleave="hideTooltip()">
+      <div class="pc-top">
+        <div class="pc-num">#${p.id}</div>
+        <div class="pc-corner corner-${p.status}"></div>
+      </div>
+      <div class="pc-mid">
+        <div class="pc-size">${p.size} sq.yds</div>
+        <div class="pc-facing" title="${p.facing}">${getShortFacing(p.facing)}</div>
+      </div>
+      <div class="pc-bottom">
+        <div class="pc-price-chip">${formatShortPrice(p.total)}</div>
+        <div class="pc-badge badge-${p.status}">${p.status.substr(0,4)}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── HOVER QUICK PREVIEW TOOLTIP LOGIC ──────────────────────────────────────
+function showTooltip(e, id) {
+  const p = getPlotDef(id);
+  if (!p) return;
+  const tt = document.getElementById('plot-tooltip');
+  
+  document.getElementById('tt-plotnum').textContent = `Plot #${p.id}`;
+  const badge = document.getElementById('tt-badge');
+  badge.textContent = p.status.toUpperCase();
+  badge.className = `tt-badge badge-${p.status}`;
+  
+  document.getElementById('tt-size').textContent   = `${p.size} sq.yds`;
+  document.getElementById('tt-facing').textContent = p.facing || '—';
+  document.getElementById('tt-dims').textContent   = p.dims || '—';
+  document.getElementById('tt-price').innerHTML  = `<span>Total Price:</span><strong>${p.total ? '₹' + p.total.toLocaleString('en-IN') : '—'}</strong>`;
+
+  const buyerRow = document.getElementById('tt-buyer-row');
+  if (p.buyer && p.status !== 'available') {
+    document.getElementById('tt-buyer').textContent = p.buyer;
+    buyerRow.style.display = 'flex';
+  } else {
+    buyerRow.style.display = 'none';
+  }
+
+  tt.classList.add('show');
+  moveTooltip(e);
+}
+
+function moveTooltip(e) {
+  const tt = document.getElementById('plot-tooltip');
+  if (!tt.classList.contains('show')) return;
+  const x = e.clientX + 14;
+  const y = e.clientY + 14;
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  const ttWidth = tt.offsetWidth;
+  const ttHeight = tt.offsetHeight;
+
+  let leftPos = x;
+  let topPos = y;
+
+  if (x + ttWidth > windowWidth - 10) leftPos = e.clientX - ttWidth - 10;
+  if (y + ttHeight > windowHeight - 10) topPos = e.clientY - ttHeight - 10;
+
+  tt.style.left = leftPos + 'px';
+  tt.style.top  = topPos + 'px';
+}
+
+function hideTooltip() {
+  document.getElementById('plot-tooltip').classList.remove('show');
+}
+
+// ── EXPORT CSV & PRINT SUMMARY REPORT ─────────────────────────────────────
+function exportToCSV() {
+  if (!plotDefs || !plotDefs.length) { showToast('No plot data to export', 'error'); return; }
+  const headers = ['Plot ID', 'Size (sq.yds)', 'Facing', 'Dimensions', 'Base Rate (per sq.yd)', 'Add. Charges', 'Corpus Fund', 'Total Price', 'Status', 'Buyer Name', 'Phone', 'Salesperson', 'Payment Scheme'];
+  
+  const csvRows = [headers.join(',')];
+  plotDefs.forEach(p => {
+    const row = [
+      `"${p.id}"`,
+      `"${p.size}"`,
+      `"${(p.facing || '').replace(/"/g, '""')}"`,
+      `"${(p.dims || '').replace(/"/g, '""')}"`,
+      p.baseRate,
+      p.addRate,
+      p.corpusFund,
+      p.total,
+      `"${p.status.toUpperCase()}"`,
+      `"${(p.buyer || '').replace(/"/g, '""')}"`,
+      `"${p.phone || ''}"`,
+      `"${(p.salesperson || '').replace(/"/g, '""')}"`,
+      `"${(p.scheme || '').replace(/"/g, '""')}"`
+    ];
+    csvRows.push(row.join(','));
+  });
+
+  const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', `Vibhava_Plots_Inventory_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showToast('📊 Exported CSV inventory report!', 'success');
+}
+
+function printReport() {
+  window.print();
+}
+
+// ── SIZE FILTER ────────────────────────────────────────────────────────────
+function setSizePreset(min, max, btn) {
+  if (btn.classList.contains('active')) {
+    clearSizeFilter();
+    return;
+  }
+  sizeMin = min === 0 ? null : min;
+  sizeMax = max;
+  document.getElementById('size-min').value = min === 0 ? '' : min;
+  document.getElementById('size-max').value = max;
+  document.querySelectorAll('.size-preset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('size-clear').classList.add('show');
+  renderGrid();
+}
+
+function onCustomSizeInput() {
+  const minVal = document.getElementById('size-min').value;
+  const maxVal = document.getElementById('size-max').value;
+  sizeMin = minVal !== '' ? parseFloat(minVal) : null;
+  sizeMax = maxVal !== '' ? parseFloat(maxVal) : null;
+  document.querySelectorAll('.size-preset-btn').forEach(b => b.classList.remove('active'));
+  const hasSizeFilter = sizeMin !== null || sizeMax !== null;
+  document.getElementById('size-clear').classList.toggle('show', hasSizeFilter);
+  renderGrid();
+}
+
+function clearSizeFilter() {
+  sizeMin = null; sizeMax = null;
+  document.getElementById('size-min').value = '';
+  document.getElementById('size-max').value = '';
+  document.querySelectorAll('.size-preset-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('size-clear').classList.remove('show');
+  renderGrid();
+}
+
+// ── BUDGET FILTER HANDLERS ──────────────────────────────────────────────────
+function setBudgetPreset(min, max, btn) {
+  if (btn.classList.contains('active')) {
+    clearBudgetFilter();
+    return;
+  }
+  budgetMin = min === 0 ? null : min;
+  budgetMax = max >= 1000 ? null : max;
+  document.getElementById('budget-min').value = min === 0 ? '' : min;
+  document.getElementById('budget-max').value = max >= 1000 ? '' : max;
+  document.querySelectorAll('.budget-preset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('budget-clear').classList.add('show');
+  renderGrid();
+}
+
+function onCustomBudgetInput() {
+  const minVal = document.getElementById('budget-min').value;
+  const maxVal = document.getElementById('budget-max').value;
+  budgetMin = minVal !== '' ? parseFloat(minVal) : null;
+  budgetMax = maxVal !== '' ? parseFloat(maxVal) : null;
+  document.querySelectorAll('.budget-preset-btn').forEach(b => b.classList.remove('active'));
+  const hasBudgetFilter = budgetMin !== null || budgetMax !== null;
+  document.getElementById('budget-clear').classList.toggle('show', hasBudgetFilter);
+  renderGrid();
+}
+
+function clearBudgetFilter() {
+  budgetMin = null; budgetMax = null;
+  document.getElementById('budget-min').value = '';
+  document.getElementById('budget-max').value = '';
+  document.querySelectorAll('.budget-preset-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('budget-clear').classList.remove('show');
+  renderGrid();
+}
+
+function updateCounts() {
+  const avail = plotDefs.filter(p => p.status==='available').length;
+  const res   = plotDefs.filter(p => p.status==='reserved').length;
+  const sold  = plotDefs.filter(p => p.status==='sold').length;
+  const mort  = plotDefs.filter(p => p.status==='mortgage').length;
+  const total = plotDefs.length;
+  document.getElementById('sc-avail').textContent = avail;
+  document.getElementById('sc-res').textContent   = res;
+  document.getElementById('sc-sold').textContent  = sold;
+  document.getElementById('sc-total').textContent = total;
+  document.getElementById('sc-mort').textContent  = mort;
+  document.getElementById('hdr-avail').textContent = avail;
+  document.getElementById('hdr-res').textContent   = res;
+  document.getElementById('hdr-sold').textContent  = sold;
+  document.getElementById('hdr-mort').textContent  = mort;
+  const pct = total ? Math.round((sold+res)/total*100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '% sold';
+}
+
+// ── FILTER ────────────────────────────────────────────────────────────────
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+// ── DETAIL MODAL ──────────────────────────────────────────────────────────
+function getPlotDef(id) { return plotDefs.find(p => p.id === String(id)); }
+
+function openDetailModal(id) {
+  hideTooltip();
+  const p = getPlotDef(id);
+  if (!p) return;
+  currentPlotId = id;
+
+  document.getElementById('dm-title').textContent   = `Plot #${p.id}`;
+  document.getElementById('dm-sub').textContent     = `${p.size} sq.yds · ${p.facing}`;
+  document.getElementById('dm-plotnum').textContent = `#${p.id}`;
+  document.getElementById('dm-size').textContent    = `${p.size} sq.yds`;
+  document.getElementById('dm-size2').textContent   = `${p.size} sq.yds`;
+  document.getElementById('dm-dims').textContent    = p.dims || '—';
+  document.getElementById('dm-facing').textContent  = p.facing || '—';
+  document.getElementById('dm-base').textContent    = p.baseRate ? `₹${p.baseRate.toLocaleString('en-IN')} / sq.yd` : '—';
+  document.getElementById('dm-add').textContent     = p.addRate  ? `₹${p.addRate.toLocaleString('en-IN')} / sq.yd` : '₹0 / sq.yd';
+  document.getElementById('dm-corpus').textContent  = p.corpusFund ? `₹${p.corpusFund.toLocaleString('en-IN')} / sq.yd` : '₹0 / sq.yd';
+  
+  const baseAmt   = Math.round(p.baseRate   * p.size);
+  const addAmt    = Math.round(p.addRate    * p.size);
+  const corpusAmt = Math.round(p.corpusFund * p.size);
+  document.getElementById('dm-baseamt').textContent   = baseAmt   ? `₹${baseAmt.toLocaleString('en-IN')}` : '—';
+  document.getElementById('dm-addamt').textContent    = addAmt    ? `₹${addAmt.toLocaleString('en-IN')}` : '₹0';
+  document.getElementById('dm-corpusamt').textContent = corpusAmt ? `₹${corpusAmt.toLocaleString('en-IN')}` : '₹0';
+  document.getElementById('dm-total').textContent   = p.total ? `₹${p.total.toLocaleString('en-IN')}` : '—';
+
+  const card = document.getElementById('booking-info-card');
+  const bookBtn = document.getElementById('dm-book-btn');
+  
+  if (p.status === 'mortgage') {
+    document.getElementById('bi-buyer').textContent       = 'This plot is under mortgage';
+    document.getElementById('bi-salesperson').textContent = '—';
+    card.style.display = 'block';
+    bookBtn.style.display = 'none';
+  } else if (p.status === 'reserved' || p.status === 'sold') {
+    document.getElementById('bi-buyer').textContent      = p.buyer      || '—';
+    document.getElementById('bi-salesperson').textContent= p.salesperson|| '—';
+    card.style.display = 'block';
+    bookBtn.style.display = 'flex';
+  } else {
+    card.style.display = 'none';
+    bookBtn.style.display = 'flex';
+  }
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+function closeDetailModal() {
+  document.getElementById('detail-modal').classList.remove('open');
+  currentPlotId = null;
+}
+
+// ── BOOKING MODAL ─────────────────────────────────────────────────────────
+async function loadPlans() {
+  if (plansCache) return plansCache;
+  try {
+    const res  = await fetch(`${SCRIPT_URL}?action=getPlans`, { cache: 'no-store' });
+    const data = await res.json();
+    if (Array.isArray(data)) { plansCache = data; return data; }
+  } catch(e) {}
+  return [
+    { name: '7 Days Plan',        baseRate: null, addRate: null, corpusRate: null, desc: 'Full payment within 7 days' },
+    { name: '25% + 30 Days Plan', baseRate: null, addRate: null, corpusRate: null, desc: '25% allotment amount + 30 days timeline' },
+    { name: '25% + 60 Days Plan', baseRate: null, addRate: null, corpusRate: null, desc: '25% allotment amount + 60 days timeline' },
+    { name: '25% + 90 Days Plan', baseRate: null, addRate: null, corpusRate: null, desc: '25% allotment amount + 90 days timeline' },
+  ];
+}
+
+async function renderPlanCards() {
+  const p = getPlotDef(currentPlotId);
+  if (!p) return;
+  document.getElementById('plan-loading').style.display = 'block';
+  document.getElementById('plan-cards').style.display   = 'none';
+  const plans = await loadPlans();
+  document.getElementById('plan-loading').style.display = 'none';
+  const container = document.getElementById('plan-cards');
+  container.style.display = 'flex';
+  container.innerHTML = plans.map((plan, i) => {
+    const base   = (plan.baseRate   != null) ? plan.baseRate   : p.baseRate;
+    const add    = (plan.addRate    != null) ? plan.addRate    : p.addRate;
+    const corpus = (plan.corpusRate != null) ? plan.corpusRate : p.corpusFund;
+    const total  = Math.round(parseFloat(p.size) * (base + add + corpus));
+    return `<div class="plan-card" onclick="selectPlan(${i})" id="plan-card-${i}">
+      <div class="plan-card-title">${plan.name}</div>
+      <div class="plan-card-desc">${plan.desc || ''}</div>
+      <div class="plan-card-price">₹${total.toLocaleString('en-IN')}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectPlan(idx) {
+  const p = getPlotDef(currentPlotId);
+  if (!p || !plansCache) return;
+  selectedPlan = plansCache[idx];
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('plan-card-' + idx).classList.add('selected');
+
+  const base   = (selectedPlan.baseRate   != null) ? selectedPlan.baseRate   : p.baseRate;
+  const add    = (selectedPlan.addRate    != null) ? selectedPlan.addRate    : p.addRate;
+  const corpus = (selectedPlan.corpusRate != null) ? selectedPlan.corpusRate : p.corpusFund;
+  const total  = Math.round(parseFloat(p.size) * (base + add + corpus));
+
+  document.getElementById('pp-base').textContent   = `₹${base.toLocaleString('en-IN')} / sq.yd`;
+  document.getElementById('pp-add').textContent    = `₹${add.toLocaleString('en-IN')} / sq.yd`;
+  document.getElementById('pp-corpus').textContent = `₹${corpus.toLocaleString('en-IN')} / sq.yd`;
+  document.getElementById('pp-total').textContent  = `₹${total.toLocaleString('en-IN')}`;
+
+  const box = document.getElementById('pp-breakdown');
+  if (selectedPlan.pct25) {
+    const now   = Math.round(total * 0.25);
+    const later = total - now;
+    box.innerHTML = `<span style="color:#7B1A1A;font-weight:700;">25% Now:</span> ₹${now.toLocaleString('en-IN')} &nbsp;|&nbsp; <span style="color:#7B1A1A;font-weight:700;">Balance:</span> ₹${later.toLocaleString('en-IN')}`;
+  } else {
+    box.innerHTML = `<span style="color:#7B1A1A;font-weight:700;">Full Payment:</span> ₹${total.toLocaleString('en-IN')}`;
+  }
+  document.getElementById('plan-price-box').style.display = 'block';
+}
+
+function openBookingModal() {
+  const p = getPlotDef(currentPlotId);
+  if (!p) return;
+  document.getElementById('bk-title').textContent = `Book / Update Plot #${p.id}`;
+  document.getElementById('bk-sub').textContent   = `${p.size} sq.yds · ${p.facing}`;
+  
+  selectStatus(p.status === 'mortgage' ? 'available' : p.status);
+
+  document.getElementById('modal-buyer').value = p.buyer || '';
+  document.getElementById('modal-phone').value = p.phone || '';
+  document.getElementById('modal-date').value  = new Date().toISOString().split('T')[0];
+
+  const spSelect = document.getElementById('modal-salesperson-select');
+  const spInput  = document.getElementById('modal-salesperson');
+  const knownSalespeople = ['Bhanu','Mohan','Ramesh','Venu','Praveen','Mahesh','Naveen','Narsi Reddy'];
+
+  if (knownSalespeople.includes(p.salesperson)) {
+    spSelect.value = p.salesperson;
+    spInput.style.display = 'none';
+    spInput.value = '';
+  } else if (p.salesperson) {
+    spSelect.value = '__other__';
+    spInput.style.display = 'block';
+    spInput.value = p.salesperson;
+  } else {
+    spSelect.value = '';
+    spInput.style.display = 'none';
+    spInput.value = '';
+  }
+
+  selectedPlan = null;
+  document.getElementById('plan-price-box').style.display = 'none';
+  document.getElementById('btn-save').disabled    = false;
+  document.getElementById('btn-save').textContent = 'Save';
+  document.getElementById('booking-modal').classList.add('open');
+  renderPlanCards();
+}
+
+function closeBookingModal() { document.getElementById('booking-modal').classList.remove('open'); }
+
+function selectStatus(s) {
+  selectedStatus = s;
+  document.querySelectorAll('.status-opt').forEach(el => el.classList.remove('selected'));
+  const opt = document.querySelector(`.opt-${s}`);
+  if (opt) opt.classList.add('selected');
+}
+
+function handleSalespersonSelect(val) {
+  const txt = document.getElementById('modal-salesperson');
+  if (val === '__other__') { txt.style.display = 'block'; txt.focus(); }
+  else { txt.style.display = 'none'; txt.value = ''; }
+}
+
+// ── SAVE STATUS ───────────────────────────────────────────────────────────
+async function saveStatus() {
+  if (!selectedStatus) { showToast('Please select a status', 'error'); return; }
+
+  const buyer       = document.getElementById('modal-buyer').value.trim();
+  const phone       = document.getElementById('modal-phone').value.trim();
+  const bookingDate = document.getElementById('modal-date').value;
+  const scheme      = selectedPlan ? selectedPlan.name : '';
+  const spSelect    = document.getElementById('modal-salesperson-select').value;
+  const salesperson = (spSelect === '__other__' || spSelect === '')
+    ? document.getElementById('modal-salesperson').value.trim()
+    : spSelect;
+
+  if (selectedStatus !== 'available') {
+    if (!buyer)       { showToast('Please enter buyer name', 'error'); document.getElementById('modal-buyer').focus(); return; }
+    if (!phone)       { showToast('Please enter phone number', 'error'); document.getElementById('modal-phone').focus(); return; }
+    if (!salesperson) { showToast('Please select a sales person', 'error'); document.getElementById('modal-salesperson-select').focus(); return; }
+  }
+
+  const btn = document.getElementById('btn-save');
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  try {
+    await saveToSheet(currentPlotId, selectedStatus, buyer, phone, bookingDate, scheme, salesperson);
+
+    const p = getPlotDef(currentPlotId);
+    if (p) {
+      p.status = selectedStatus; p.buyer = buyer; p.phone = phone;
+      p.scheme = scheme; p.salesperson = salesperson;
+    }
+    closeBookingModal();
+    closeDetailModal();
+    renderGrid();
+    updateCounts();
+    loadTodaysLog();
+
+    const msgs = { reserved:`🔖 Plot #${currentPlotId} reserved for ${buyer}`, sold:`🏠 Plot #${currentPlotId} sold to ${buyer}`, available:`✅ Plot #${currentPlotId} released` };
+    showToast(msgs[selectedStatus] || 'Saved!', 'success');
+  } catch(e) {
+    showToast('❌ Could not save. Check connection.', 'error');
+    btn.disabled = false; btn.textContent = 'Save';
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.className = 'toast' + (type==='error' ? ' error' : '');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── TODAY'S UPDATES ───────────────────────────────────────────────────────
+let todaysLog = [], updatesFilter = 'all', updatesPanelOpen = false;
+
+async function debugLog() {
+  const feed = document.getElementById('upanel-feed');
+  feed.innerHTML = '<div style="padding:10px;font-size:11px;color:#555;">Fetching…</div>';
+  try {
+    const r1 = await fetch(`${SCRIPT_URL}?action=debug`,  { cache:'no-store' });
+    const t1 = await r1.text();
+    const r2 = await fetch(`${SCRIPT_URL}?action=getLog`, { cache:'no-store' });
+    const t2 = await r2.text();
+    feed.innerHTML = `<div style="padding:10px;font-size:11px;font-family:monospace;word-break:break-all;">
+      <b style="color:#7B1A1A">?action=debug:</b><br><span style="color:#333">${t1}</span>
+      <br><br><b style="color:#7B1A1A">?action=getLog:</b><br><span style="color:#333">${t2}</span></div>`;
+  } catch(e) {
+    feed.innerHTML = `<div style="padding:10px;color:red;font-size:11px;">Error: ${e.message}</div>`;
+  }
+}
+
+async function loadTodaysLog() {
+  try {
+    const res  = await fetch(`${SCRIPT_URL}?action=getLog`, { cache:'no-store' });
+    const data = await res.json();
+    if (Array.isArray(data)) {
+      todaysLog = data.map(e => ({
+        ...e,
+        status: (e.status || '').toLowerCase()
+      }));
+      refreshUpdatesBadge();
+      if (updatesPanelOpen) renderUpdatesFeed(updatesFilter);
+    }
+  } catch(e) {}
+}
+
+function refreshUpdatesBadge() {
+  const badge = document.getElementById('updates-count');
+  badge.textContent = todaysLog.length;
+  badge.classList.toggle('show', todaysLog.length > 0);
+}
+
+function toggleUpdatesPanel() {
+  updatesPanelOpen = !updatesPanelOpen;
+  document.getElementById('updates-panel').classList.toggle('open', updatesPanelOpen);
+  document.getElementById('upanel-overlay').classList.toggle('open', updatesPanelOpen);
+  if (updatesPanelOpen) {
+    const d = new Date();
+    document.getElementById('upanel-date').textContent = d.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+    renderUpdatesFeed(updatesFilter);
+  }
+}
+
+function filterUpdates(f, btn) {
+  updatesFilter = f;
+  document.querySelectorAll('.upf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderUpdatesFeed(f);
+}
+
+function renderUpdatesFeed(filter) {
+  const items = filter==='all' ? todaysLog : todaysLog.filter(e => e.status===filter);
+  document.getElementById('ups-sold').textContent = todaysLog.filter(e=>e.status==='sold').length;
+  document.getElementById('ups-res').textContent  = todaysLog.filter(e=>e.status==='reserved').length;
+  document.getElementById('ups-avl').textContent  = todaysLog.filter(e=>e.status==='available').length;
+  const feed  = document.getElementById('upanel-feed');
+  if (!items.length) {
+    feed.innerHTML = `<div class="upanel-empty"><div class="ei">📭</div><p>No ${filter==='all'?'':filter+' '}updates today</p></div>`;
+    return;
+  }
+  const icons  = { sold:'🏠', reserved:'🔖', available:'✅' };
+  const labels = { sold:'Sold', reserved:'Reserved', available:'Released' };
+  feed.innerHTML = items.map(e => `
+    <div class="feed-item fi-${e.status}">
+      <div class="fi-icon">${icons[e.status]||'📋'}</div>
+      <div class="fi-body">
+        <div class="fi-title">Plot #${Number(e.plotId)} <span style="color:#aaa;font-weight:400">→</span> <span class="fi-status st-${e.status}">${labels[e.status]||e.status}</span></div>
+        ${e.buyer?`<div class="fi-sub">👤 ${e.buyer}</div>`:''}
+        <div class="fi-meta">${e.salesperson?'👨‍💼 '+e.salesperson:''}  </div>
+      </div>
+      <div class="fi-time">🕐 ${e.time}</div>
+    </div>`).join('');
+}
+
+// ── MODAL CLOSE ON BACKDROP ───────────────────────────────────────────────
+document.getElementById('detail-modal').addEventListener('click', function(e) { if(e.target===this) closeDetailModal(); });
+document.getElementById('booking-modal').addEventListener('click', function(e) { if(e.target===this) closeBookingModal(); });
+
+// ── AUTO REFRESH ──────────────────────────────────────────────────────────
+setInterval(() => { if (SCRIPT_URL !== 'YOUR_SCRIPT_URL_HERE') loadFromSheet(); }, 120000);
+
+loadFromSheet();
+</script>
+</body>
 </html>
