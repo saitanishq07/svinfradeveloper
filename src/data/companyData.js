@@ -14,7 +14,7 @@ export const companyData = {
   shortAddress: "KPHB, Hyderabad",
   phones: ["+91 9603345669", "+91 9703346669"],
   primaryPhone: "+91 9603345669",
-  email: "svinfradevelopers8@gmail.com",
+  email: "kishore02@svinfradeveloper.com",
 
   aboutShort: "Established in 2023 by Mr. K. Sai Kishore, SV Infra Developers is a rapidly growing infrastructure company with a turnover of ₹1.5 Crores. We specialize in control blasting, open blasting, chemical blasting, earthwork excavations, road works, and canal works.",
   aboutFull: "With a strong focus on safety, precision, and quality, we deliver reliable engineering solutions that drive progress and sustainability. Our mission is to build enduring infrastructure through innovation, expertise, and a commitment to excellence in every project.",
